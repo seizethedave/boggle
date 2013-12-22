@@ -1,5 +1,7 @@
 package boggle
 
+import "fmt"
+
 type BoggleBoard struct {
    nodes []*BoggleNode
 }
@@ -83,4 +85,49 @@ func newBoardFromGrid(grid [][]rune) *BoggleBoard {
    }
 
    return &BoggleBoard { nodes: nodeSlice };
+}
+
+func (board *BoggleBoard) Scan() {
+   var ledger []rune
+   for _, root := range board.nodes {
+      node := root
+
+      for node != nil {
+         pursueNode := (node.Visited() || true /* todo: navigator */)
+
+         if pursueNode && !node.Visited() {
+            node.discovered = true
+            node.Explore()
+
+            ledger = append(ledger, node.character)
+
+            fmt.Println("%s\n", string(ledger))
+         }
+
+         if node.visitStack != nil && len(node.visitStack) > 0 {
+            var unseenNeighbor *BoggleNode
+            unseenNeighbor, node.visitStack =
+             node.visitStack[len(node.visitStack) - 1],
+             node.visitStack[:len(node.visitStack) - 1]
+
+            parent := node
+            node = unseenNeighbor
+            node.visitParent = parent
+         } else {
+            // Already visited all worthy edges from this node. Backtrack.
+            orphan := node
+            orphan.discovered = false
+
+            if orphan.Visited() {
+               // todo: pop navigator
+               ledger = ledger[:len(ledger) - 1]
+               orphan.Abandon()
+            }
+
+            node = orphan.visitParent
+            orphan.visitParent = nil
+         }
+
+      }
+   }
 }
