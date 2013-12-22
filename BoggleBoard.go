@@ -1,21 +1,10 @@
 package boggle
 
-type BoggleNode struct {
-   character rune
-   connections []*BoggleNode
-}
-
-// Establishes a one-way connection.
-func (node *BoggleNode) ConnectTo(otherNode *BoggleNode) {
-   node.connections = append(node.connections, otherNode)
-}
-
 type BoggleBoard struct {
    nodes []*BoggleNode
 }
 
 func newBoardFromGrid(grid [][]rune) *BoggleBoard {
-
    height := len(grid)
    width := len(grid[0])
 
