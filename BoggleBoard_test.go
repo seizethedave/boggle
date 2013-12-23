@@ -1,8 +1,14 @@
 package boggle
-import "testing"
+
+import (
+   "testing"
+   "fmt"
+)
+
+var _ = fmt.Printf
 
 func TestCreate1x1(t *testing.T) {
-   board := newBoardFromGrid([][]rune { { 'c' } })   
+   board := NewBoardFromGrid([][]rune { { 'c' } })
 
    if len(board.nodes) != 1 {
       t.Fail()
@@ -10,7 +16,7 @@ func TestCreate1x1(t *testing.T) {
 }
 
 func TestLength2x2(t *testing.T) {
-   board := newBoardFromGrid([][]rune {
+   board := NewBoardFromGrid([][]rune {
      { 'a', 'b' },
      { 'c', 'd' },
    })
@@ -21,10 +27,10 @@ func TestLength2x2(t *testing.T) {
 }
 
 func TestConnections3x3(t *testing.T) {
-   board := newBoardFromGrid([][]rune {
+   board := NewBoardFromGrid([][]rune {
      { 'a', 'b', 'x' },
      { 'c', 'd', 'y' },
-     { 'e', 'r', 't', },
+     { 'e', 'r', 't' },
    })
 
    if len(board.nodes[0].connections) != 3 {
@@ -38,4 +44,15 @@ func TestConnections3x3(t *testing.T) {
    if len(board.nodes[4].connections) != 8 {
       t.Fail()
    }
+}
+
+func TestScan2x2(t *testing.T) {
+   board := NewBoardFromGrid([][]rune {
+     { 'a', 'b' },
+     { 'c', 'd' },
+   })
+
+   board.Scan(func(word string) {
+      // fmt.Println("Yar", word)
+   })
 }

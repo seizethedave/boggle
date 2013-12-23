@@ -19,7 +19,9 @@ func (node *BoggleNode) Visited() bool {
    return node.visitStack != nil
 }
 
-func (node *BoggleNode) Explore() {
+func (node *BoggleNode) Visit() {
+   // Populate this node's visit stack with all currently undiscovered
+   //  connections.
    node.visitStack = make([]*BoggleNode, 0)
 
    for _, connection := range node.connections {
@@ -29,7 +31,6 @@ func (node *BoggleNode) Explore() {
    }
 }
 
-func (node *BoggleNode) Abandon() {
+func (node *BoggleNode) Unvisit() {
    node.visitStack = nil
 }
-

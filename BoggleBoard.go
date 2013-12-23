@@ -1,12 +1,12 @@
 package boggle
 
-import "fmt"
-
 type BoggleBoard struct {
    nodes []*BoggleNode
 }
 
-func newBoardFromGrid(grid [][]rune) *BoggleBoard {
+type FoundWordFunc func(string)
+
+func NewBoardFromGrid(grid [][]rune) *BoggleBoard {
    height := len(grid)
    width := len(grid[0])
 
@@ -87,8 +87,9 @@ func newBoardFromGrid(grid [][]rune) *BoggleBoard {
    return &BoggleBoard { nodes: nodeSlice };
 }
 
-func (board *BoggleBoard) Scan() {
+func (board *BoggleBoard) Scan(foundFunc FoundWordFunc) {
    var ledger []rune
+
    for _, root := range board.nodes {
       node := root
 
@@ -97,14 +98,16 @@ func (board *BoggleBoard) Scan() {
 
          if pursueNode && !node.Visited() {
             node.discovered = true
-            node.Explore()
+            node.Visit()
 
             ledger = append(ledger, node.character)
 
-            fmt.Println("%s\n", string(ledger))
+            // todo: do if end of word.
+            foundFunc(string(ledger))
          }
 
          if node.visitStack != nil && len(node.visitStack) > 0 {
+            // There are unvisited adjacent nodes. Continue.
             var unseenNeighbor *BoggleNode
             unseenNeighbor, node.visitStack =
              node.visitStack[len(node.visitStack) - 1],
@@ -121,13 +124,12 @@ func (board *BoggleBoard) Scan() {
             if orphan.Visited() {
                // todo: pop navigator
                ledger = ledger[:len(ledger) - 1]
-               orphan.Abandon()
+               orphan.Unvisit()
             }
 
             node = orphan.visitParent
             orphan.visitParent = nil
          }
-
       }
    }
 }
