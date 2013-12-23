@@ -103,6 +103,11 @@ func (board *BoggleBoard) Scan(foundFunc FoundWordFunc, dict *BoggleDictionary) 
       node := root
 
       for node != nil {
+
+         // Visited() will return true during a backtrack. We know this path has
+         // been OK'd by the dictionary sometime in the past so we don't need to
+         // ask again.
+
          pursueNode := (node.Visited() || navigator.TryPush(node.character))
 
          if pursueNode && !node.Visited() {
@@ -132,7 +137,6 @@ func (board *BoggleBoard) Scan(foundFunc FoundWordFunc, dict *BoggleDictionary) 
             orphan.discovered = false
 
             if orphan.Visited() {
-               // todo: pop navigator
                navigator.Pop()
                ledger = ledger[:len(ledger) - 1]
                orphan.Unvisit()
