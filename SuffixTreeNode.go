@@ -46,3 +46,18 @@ func (node *SuffixTreeNode) Add(word string) {
    prefixNode.Add(suffix)
 }
 
+func (node *SuffixTreeNode) Seek(word string) *SuffixTreeNode {
+   // Scan down the hierarchy of nodes - one level per letter - to find the
+   // node representing the final letter. We'll bail early if there ceases to
+   // be matching nodes.
+
+   for _, character := range word {
+      node = node.children[character]
+      if node == nil {
+         // Whole word isn't in the tree. Stop looking
+         break
+      }
+   }
+
+   return node
+}

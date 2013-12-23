@@ -43,3 +43,13 @@ func TestAFewWords(t *testing.T) {
       t.Errorf("Expected endOfWord at end of apply.")
    }
 }
+
+func TestAddEndToExistingWord(t *testing.T) {
+   root := NewSuffixTree("ape")
+   root.Add("a")
+
+   aNode := root.children['a']
+   if !aNode.endOfWord {
+      t.Errorf("Expected endOfWord at end of a.")
+   }
+}
