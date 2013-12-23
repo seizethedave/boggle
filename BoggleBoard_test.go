@@ -46,13 +46,62 @@ func TestConnections3x3(t *testing.T) {
    }
 }
 
+func Contains(words []string, word string) bool {
+   for _, w := range words {
+      if w == word {
+         return true
+      }
+   }
+   return false
+}
+
 func TestScan2x2(t *testing.T) {
    board := NewBoardFromGrid([][]rune {
      { 'a', 'b' },
      { 'c', 'd' },
    })
 
+   words := make([]string, 0)
+
    board.Scan(func(word string) {
-      // fmt.Println("Yar", word)
+      words = append(words, word)
+   }, nil)
+
+   if !Contains(words, "a") { t.Fail() }
+   if !Contains(words, "ab") { t.Fail() }
+   if !Contains(words, "abc") { t.Fail() }
+   if !Contains(words, "abcd") { t.Fail() }
+   if !Contains(words, "abdc") { t.Fail() }
+   if !Contains(words, "b") { t.Fail() }
+   if !Contains(words, "bcad") { t.Fail() }
+   if !Contains(words, "bcda") { t.Fail() }
+}
+
+func TestScan2x2WithDict(t *testing.T) {
+   board := NewBoardFromGrid([][]rune {
+     { 'a', 'b' },
+     { 'c', 'd' },
    })
+
+   dict := NewBoggleDictionaryWithWords(
+    "ab", "ad", "bad", "a", "dab",
+    "drab", "brad", "crab")
+
+   words := make([]string, 0)
+
+   board.Scan(func(word string) {
+      words = append(words, word)
+   }, dict)
+
+   // Words that should be in there:
+   if !Contains(words, "a") { t.Fail() }
+   if !Contains(words, "ab") { t.Fail() }
+   if !Contains(words, "ad") { t.Fail() }
+   if !Contains(words, "bad") { t.Fail() }
+   if !Contains(words, "dab") { t.Fail() }
+
+   // Words that should not:
+   if Contains(words, "drab") { t.Fail() }
+   if Contains(words, "brad") { t.Fail() }
+   if Contains(words, "crab") { t.Fail() }
 }

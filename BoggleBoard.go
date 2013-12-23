@@ -87,14 +87,23 @@ func NewBoardFromGrid(grid [][]rune) *BoggleBoard {
    return &BoggleBoard { nodes: nodeSlice };
 }
 
-func (board *BoggleBoard) Scan(foundFunc FoundWordFunc) {
+// Calls foundFunc with each word discovered in the board.
+func (board *BoggleBoard) Scan(foundFunc FoundWordFunc, dict *BoggleDictionary) {
+
+   var navigator DictionaryNavigator
+   if navigator != nil {
+      navigator = NewBoggleDictionaryNavigator(dict.root)
+   } else {
+      navigator = &DumbDictionaryNavigator { }
+   }
+
    var ledger []rune
 
    for _, root := range board.nodes {
       node := root
 
       for node != nil {
-         pursueNode := (node.Visited() || true /* todo: navigator */)
+         pursueNode := (node.Visited() || navigator.TryPush(node.character))
 
          if pursueNode && !node.Visited() {
             node.discovered = true
@@ -102,8 +111,9 @@ func (board *BoggleBoard) Scan(foundFunc FoundWordFunc) {
 
             ledger = append(ledger, node.character)
 
-            // todo: do if end of word.
-            foundFunc(string(ledger))
+            if navigator.EndOfWord() {
+               foundFunc(string(ledger))
+            }
          }
 
          if node.visitStack != nil && len(node.visitStack) > 0 {
@@ -123,6 +133,7 @@ func (board *BoggleBoard) Scan(foundFunc FoundWordFunc) {
 
             if orphan.Visited() {
                // todo: pop navigator
+               navigator.Pop()
                ledger = ledger[:len(ledger) - 1]
                orphan.Unvisit()
             }
