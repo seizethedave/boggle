@@ -6,15 +6,15 @@ type SuffixTreeNode struct {
    children map[rune]*SuffixTreeNode
 }
 
-func NewSuffixTree(word string) (node *SuffixTreeNode) {
-   prefix, suffix := rune(word[0]), word[1:]
-   node = &SuffixTreeNode { character: prefix }
-   node.Add(suffix)
+// Creates suffix tree representing the given word. A root node is returned.
+func NewSuffixTree(word string) (root *SuffixTreeNode) {
+   root = &SuffixTreeNode { }
+   root.Add(word)
    return
 }
 
 func (node *SuffixTreeNode) Add(word string) {
-   if 0 == len(word) {
+   if len(word) == 0 {
       // We've recursed into an empty suffix. The word ends here.
       node.endOfWord = true
       return
@@ -23,7 +23,7 @@ func (node *SuffixTreeNode) Add(word string) {
    prefixRune, suffix := rune(word[0]), word[1:]
    var prefixNode *SuffixTreeNode
 
-   if nil == node.children {
+   if node.children == nil {
       // We avoid actually creating the children map util this point so leaf
       // nodes don't eat unnecessary memory.
 
