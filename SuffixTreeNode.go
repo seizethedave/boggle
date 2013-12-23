@@ -54,7 +54,7 @@ func (node *SuffixTreeNode) Seek(word string) *SuffixTreeNode {
    for _, character := range word {
       node = node.children[character]
       if node == nil {
-         // Whole word isn't in the tree. Stop looking
+         // Whole word isn't in the tree. Stop looking.
          break
       }
    }
