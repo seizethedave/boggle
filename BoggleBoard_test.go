@@ -7,6 +7,37 @@ import (
 
 var _ = fmt.Printf
 
+func Contains(words []string, word string) bool {
+   for _, w := range words {
+      if w == word {
+         return true
+      }
+   }
+   return false
+}
+
+
+const board1 = `abc
+def
+ghi`
+
+func TestCreateFromString(t *testing.T) {
+   board := NewBoardFromString(board1)
+
+   if len(board.nodes) != 9 {
+      t.Errorf("Should be 9 nodes. got %d instead. (%+v)", len(board.nodes),
+       board.nodes)
+   }
+
+   words := board.ScanAll(nil)
+
+   if !Contains(words, "abcfedghi") {
+      t.Errorf("expected word not found among %d words", len(words))
+      t.Logf("%v", words)
+   }
+   t.Logf("%+v", board.nodes[0])
+}
+
 func TestCreate1x1(t *testing.T) {
    board := NewBoardFromGrid([][]rune { { 'c' } })
 
@@ -44,15 +75,6 @@ func TestConnections3x3(t *testing.T) {
    if len(board.nodes[4].connections) != 8 {
       t.Fail()
    }
-}
-
-func Contains(words []string, word string) bool {
-   for _, w := range words {
-      if w == word {
-         return true
-      }
-   }
-   return false
 }
 
 func TestScan2x2(t *testing.T) {

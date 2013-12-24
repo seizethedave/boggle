@@ -1,10 +1,31 @@
 package boggle
 
+import (
+   "log"
+   "strings"
+)
+
+var _ = log.Printf
+
 type BoggleBoard struct {
    nodes []*BoggleNode
 }
 
 type FoundWordFunc func(string)
+
+
+func NewBoardFromString(grid string) *BoggleBoard {
+   // Turn encoded grid string into NxM nested array and pass it to
+   // NewBoardFromGrid.
+
+   runeGrid := make([][]rune, 0)
+
+   for _, row := range strings.Split(grid, "\n") {
+      runeGrid = append(runeGrid, []rune(row))
+   }
+
+   return NewBoardFromGrid(runeGrid)
+}
 
 func NewBoardFromGrid(grid [][]rune) *BoggleBoard {
    height := len(grid)
@@ -13,31 +34,24 @@ func NewBoardFromGrid(grid [][]rune) *BoggleBoard {
    var nodeSlice []*BoggleNode;
    nodeGrid := make([][]*BoggleNode, height)
 
-   var x, y int
-
-   for _, row := range grid {
+   for y, row := range grid {
       nodeGrid[y] = make([]*BoggleNode, len(row))
 
-      x = 0
-
-      for _, char := range row {
+      for x, char := range row {
          newNode := BoggleNode { character: char }
          nodeSlice = append(nodeSlice, &newNode)
          nodeGrid[y][x] = &newNode
-         x++
       }
-
-      y++
    }
 
    var thisNode *BoggleNode
    var notRightCol, notLeftCol, notTopRow, notBottomRow bool
 
-   for y = 0; y < height; y++ {
+   for y := 0; y < height; y++ {
       notTopRow = y > 0
       notBottomRow = y < height - 1
 
-      for x = 0; x < width; x++ {
+      for x := 0; x < width; x++ {
          thisNode = nodeGrid[y][x]
          notLeftCol = x > 0
          notRightCol = x < width - 1
@@ -85,6 +99,17 @@ func NewBoardFromGrid(grid [][]rune) *BoggleBoard {
    }
 
    return &BoggleBoard { nodes: nodeSlice };
+}
+
+// Implements the common case where you just want to get an array of all words.
+func (board *BoggleBoard) ScanAll(dict *BoggleDictionary) (words []string) {
+   words = make([]string, 0)
+
+   board.Scan(func(word string) {
+      words = append(words, word)
+   }, dict)
+
+   return
 }
 
 // Calls foundFunc with each word discovered in the board.
