@@ -116,7 +116,7 @@ func (board *BoggleBoard) ScanAll(dict *BoggleDictionary) (words []string) {
 func (board *BoggleBoard) Scan(foundFunc FoundWordFunc, dict *BoggleDictionary) {
 
    var navigator DictionaryNavigator
-   if navigator != nil {
+   if dict != nil {
       navigator = NewBoggleDictionaryNavigator(dict.root)
    } else {
       navigator = &DumbDictionaryNavigator { }

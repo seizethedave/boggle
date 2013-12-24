@@ -19,7 +19,8 @@ func (navigator *BoggleDictionaryNavigator) TryPush(character rune) bool {
    nextNode := navigator.node.children[character]
 
    if nextNode != nil {
-      navigator.history = append(navigator.history, nextNode)
+      // Push onto history, assume new node as current.
+      navigator.history = append(navigator.history, navigator.node)
       navigator.node = nextNode
       return true
    }
@@ -32,7 +33,10 @@ func (navigator *BoggleDictionaryNavigator) Pop() {
       panic("Too many pops.")
    }
 
-   navigator.history = navigator.history[:len(navigator.history) - 1]
+   // Pop from history stack onto current node.
+   navigator.node, navigator.history =
+    navigator.history[len(navigator.history) - 1],
+    navigator.history[:len(navigator.history) - 1]
 }
 
 func (navigator *BoggleDictionaryNavigator) EndOfWord() bool {

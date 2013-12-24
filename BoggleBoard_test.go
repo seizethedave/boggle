@@ -109,21 +109,17 @@ func TestScan2x2WithDict(t *testing.T) {
     "ab", "ad", "bad", "a", "dab",
     "drab", "brad", "crab")
 
-   words := make([]string, 0)
-
-   board.Scan(func(word string) {
-      words = append(words, word)
-   }, dict)
+   words := board.ScanAll(dict)
 
    // Words that should be in there:
-   if !Contains(words, "a") { t.Fail() }
-   if !Contains(words, "ab") { t.Fail() }
-   if !Contains(words, "ad") { t.Fail() }
-   if !Contains(words, "bad") { t.Fail() }
-   if !Contains(words, "dab") { t.Fail() }
+   if !Contains(words, "a") { t.Errorf("a") }
+   if !Contains(words, "ab") { t.Errorf("ab") }
+   if !Contains(words, "ad") { t.Errorf("ad") }
+   if !Contains(words, "bad") { t.Errorf("bad") }
+   if !Contains(words, "dab") { t.Errorf("dab") }
 
    // Words that should not:
-   if Contains(words, "drab") { t.Fail() }
-   if Contains(words, "brad") { t.Fail() }
-   if Contains(words, "crab") { t.Fail() }
+   if Contains(words, "drab") { t.Errorf("drab") }
+   if Contains(words, "brad") { t.Errorf("brad") }
+   if Contains(words, "crab") { t.Errorf("crab") }
 }
