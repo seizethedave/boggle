@@ -1,18 +1,14 @@
 package boggle
 
 import (
-   "log"
    "strings"
 )
-
-var _ = log.Printf
 
 type BoggleBoard struct {
    nodes []*BoggleNode
 }
 
 type FoundWordFunc func(string)
-
 
 func NewBoardFromString(grid string) *BoggleBoard {
    // Turn encoded grid string into NxM nested array and pass it to
@@ -133,16 +129,17 @@ func (board *BoggleBoard) Scan(foundFunc FoundWordFunc, dict *BoggleDictionary) 
          // been OK'd by the dictionary sometime in the past so we don't need to
          // ask again.
 
-         pursueNode := (node.Visited() || navigator.TryPush(node.character))
+         if !node.Visited() {
 
-         if pursueNode && !node.Visited() {
-            node.discovered = true
-            node.Visit()
+            if navigator.TryPush(node.character) {
+               node.discovered = true
+               node.Visit()
 
-            ledger = append(ledger, node.character)
+               ledger = append(ledger, node.character)
 
-            if navigator.EndOfWord() {
-               foundFunc(string(ledger))
+               if navigator.EndOfWord() {
+                  foundFunc(string(ledger))
+               }
             }
          }
 
@@ -159,7 +156,7 @@ func (board *BoggleBoard) Scan(foundFunc FoundWordFunc, dict *BoggleDictionary) 
          } else {
             // Already visited all worthy edges from this node. Backtrack.
             orphan := node
-            orphan.discovered = false
+            node.discovered = false
 
             if orphan.Visited() {
                navigator.Pop()
