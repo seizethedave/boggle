@@ -1,7 +1,7 @@
 ﻿body
 {
    margin: 0;
-   font: 17px/25px Candara, Cambria, Arial, sans-serif;
+   font: 17px/25px Candara, Lucida Grande, Cambria, Arial, sans-serif;
    background-color: #f2f0d8;
 }
 
@@ -12,7 +12,7 @@ header
 
 h1
 {
-   font: 48px Candara, Cambria, Arial, sans-serif;
+   font: 40px Candara, Lucida Grande, Cambria, Arial, sans-serif;
    padding: 20px;
    margin: 0;
    border-bottom: 1px solid #d3bba5;
@@ -23,35 +23,9 @@ h2
    margin-top: 0;
 }
 
-nav
-{
-   background-color: #e9dfcd;
-   padding: 16px 20px;
-   height: 1.2em;
-   border-bottom: 1px solid #dfd1b7;
-}
-
-nav ul
-{
-   list-style: none;
-   padding-left: 0;
-   margin: 0;
-}
-
-nav li
-{
-   float: left;
-   padding-right: 10px;
-}
-
 #main
 {
    padding: 20px;
-}
-
-body#boggle nav .boggle
-{
-   font-weight: bold;
 }
 
 header, footer, nav, section
@@ -126,11 +100,5 @@ ul#words
 
 .stale
 {
-   /* Animate the dimming to gray. */
    color: #b3b8bb;
-   -webkit-transition: all 0.3s linear;
-   -moz-transition: all 0.3s linear;
-   -o-transition: all 0.3s linear;
-   -ms-transition: all 0.3s linear;
-   transition: all 0.3s linear;
 }
