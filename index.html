@@ -1,0 +1,34 @@
+﻿{{define "content"}}
+<h2>Boggle</h2>
+
+<p>Click a cell to change its value.</p>
+
+<div id="bogglePage">
+<form>
+   <label>
+   Board size:
+   <input name="width" type="number" min="1" step="1" id="boardWidth" autocomplete="off" />
+   </label>
+   <label>
+   x
+   <input name="height" type="number" min="1" step="1" id="boardHeight" autocomplete="off" />
+   </label>
+
+   <ul id="tools">
+      <li><a href="javascript:" id="solveLink">Solve</a></li>
+      <li><a href="javascript:" id="randomizeLink">Randomize board</a></li>
+      <li><a href="javascript:" id="randomizeEmptiesLink">Fill empty spots</a></li>
+      <li><a href="javascript:" id="clearLink">Clear board</a></li>
+   </ul>
+
+   <div id="board"><table><tbody></tbody></table></div>
+   <ul id="words"></ul>
+</form>
+</div>
+{{end}}
+
+{{define "epilogue"}}
+<script>
+new Boggle.BogglePage($("#bogglePage"));
+</script>
+{{end}}

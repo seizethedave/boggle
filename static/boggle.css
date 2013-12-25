@@ -1,0 +1,136 @@
+﻿body
+{
+   margin: 0;
+   font: 17px/25px Candara, Cambria, Arial, sans-serif;
+   background-color: #f2f0d8;
+}
+
+header
+{
+   background-color: #d9c2ad;
+}
+
+h1
+{
+   font: 48px Candara, Cambria, Arial, sans-serif;
+   padding: 20px;
+   margin: 0;
+   border-bottom: 1px solid #d3bba5;
+}
+
+h2
+{
+   margin-top: 0;
+}
+
+nav
+{
+   background-color: #e9dfcd;
+   padding: 16px 20px;
+   height: 1.2em;
+   border-bottom: 1px solid #dfd1b7;
+}
+
+nav ul
+{
+   list-style: none;
+   padding-left: 0;
+   margin: 0;
+}
+
+nav li
+{
+   float: left;
+   padding-right: 10px;
+}
+
+#main
+{
+   padding: 20px;
+}
+
+body#boggle nav .boggle
+{
+   font-weight: bold;
+}
+
+header, footer, nav, section
+{
+   display: block;
+}
+
+code
+{
+   font-family: Courier New, Consolas, sans-serif;
+}
+
+/* Boggle page specifics. */
+
+#boardWidth, #boardHeight
+{
+   width: 45px;
+}
+
+#board table
+{
+   border-spacing: 4px;
+   table-layout: fixed;
+}
+
+#board td
+{
+   min-width: 24px;
+   width: 24px;
+   height: 29px;
+   font-size: 1.3em;
+   text-align: center;
+   background-color: #f8f5ef;
+   cursor: pointer;
+   overflow-y: hidden;
+}
+
+#board input
+{
+   font-family: inherit;
+   font-size: inherit;
+   text-align: center;
+   padding: 0;
+   margin: 0;
+   width: 100%;
+   height: 100%;
+   border: 0;
+}
+
+ul#tools
+{
+   list-style-type: georgian;
+}
+
+#solveLink
+{
+   font-weight: 600;  
+}
+
+ul#words
+{
+   -moz-column-count: 5;
+   -moz-column-gap: 2px;
+   -webkit-column-count: 5;
+   -webkit-column-gap: 2px;
+   -ms-column-count: 5;
+   -ms-column-gap: 2px;
+   column-count: 5;
+   column-gap: 2px;
+   list-style-position: inside;
+}
+
+.stale
+{
+   /* Animate the dimming to gray. */
+   color: #b3b8bb;
+   -webkit-transition: all 0.3s linear;
+   -moz-transition: all 0.3s linear;
+   -o-transition: all 0.3s linear;
+   -ms-transition: all 0.3s linear;
+   transition: all 0.3s linear;
+}
